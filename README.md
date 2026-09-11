@@ -5,30 +5,17 @@
 
 ![Project Snapshot](preview.svg)
 
-A command-line utility to verify the validity of links within Markdown files. It checks for broken relative paths and performs HTTP HEAD requests on absolute URLs to confirm reachability.
+A command-line utility to verify the validity of links within Markdown files. It checks for broken relative paths and performs HTTP requests on absolute URLs to confirm reachability.
 
 ## Capabilities
-- Recursive directory scanning for `.md` files.
-- Validates relative file links (checks local filesystem existence).
-- Validates absolute URLs (HTTP HEAD requests with timeout).
-- Configurable concurrency for network I/O.
-- Non-zero exit status on broken links for CI/CD integration.
+- Recursive directory scanning for `.md` files
+- Multithreaded concurrent verification
+- Export reports in JSON and JUnit XML formats
+- Configurable timeout and ignore patterns via CLI flags
 
-## Quickstart
+## Installation & Usage
+
 ```bash
 pip install requests
-python main.py ./docs
+python main.py /path/to/docs --workers 20 --json-output report.json
 ```
-
-## CLI Example
-```text
-$ python main.py ./content
-[PASS] ./content/index.md -> ./about.md
-[FAIL] ./content/posts/test.md -> https://example.com/404 (Status: 404)
-[PASS] ./content/posts/test.md -> https://google.com (Status: 200)
-
-Audit complete. 2 passed, 1 failed.
-```
-
-## License
-MIT
